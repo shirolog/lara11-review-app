@@ -39,16 +39,10 @@ class HomeController extends Controller
             abort(404);
         }
 
-        $book = Book::with(['reviews' => function($query) {
-            $query->where('status', 1);
-        }])
-        ->withCount(['reviews' => function($query) {
-            $query->where('status', 1);
-        }])
-        ->withSum(['reviews' => function($query) {
-            $query->where('status', 1);
-        }], 'rating')
-        ->find($book->id);
+        $query = Book::withCount('reviews')->withSum('reviews', 'rating')
+        ->where('status', 1)->latest();
+
+        $book = $query->find($book->id);
 
         $relatedBooks = Book::where('status', 1)
         ->withCount('reviews')

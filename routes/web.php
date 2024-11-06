@@ -70,9 +70,6 @@ Route::group(['prefix' => 'account'], function(){
             Route::delete('delete-reviews/{review}', [ReviewController::class, 'destroy'])
             ->name('review.destroy');
         });
-
-
-
     });
 
 });

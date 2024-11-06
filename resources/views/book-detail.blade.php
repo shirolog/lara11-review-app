@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="theme-font text-muted">({{($book->reviews_count) ? $book->reviews_count. ' Reviews ' : $relatedBook->reviews_count. ' Review '}})</span>
+                            <span class="theme-font text-muted">({{($book->reviews_count) ? $book->reviews_count. ' Reviews ' : $book->reviews_count. ' Review '}})</span>
                             </div>
 
                         <div class="content mt-3">
@@ -137,6 +137,7 @@
 
                                 @if($book->reviews->isNotEmpty())
                                     @foreach($book->reviews as $review)
+                                        @if(Auth::user()->role != 'admin')
 
                                     <div class="card border-0 shadow-lg my-4">
                                         <div class="card-body">
@@ -172,10 +173,10 @@
                                                                                    
                                             </div>
                                             <div class="content">
-                                                <p>{{$review->review}}</p>
+                                                <p>{{$review->review}}</p></div>
                                             </div>
-                                        </div>
                                     </div>  
+                                    @endif
                                     @endforeach
                                     @else
                                     <div>
