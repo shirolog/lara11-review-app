@@ -136,6 +136,45 @@ class AccountController extends Controller
     }
 
 
+    public function changePass(User $user){
+        
+        return view('account.change-password');
+    }
+
+    public function updatePass(Request $request, User $user){
+
+        $validator = Validator::make($request->all(), [
+
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed|min:5',
+            'new_password_confirmation' => 'required',
+        ]);
+
+        if($validator->fails()){
+
+            return redirect()->route('account.changePass')->withInput()->withErrors($validator);
+        }
+
+        $old_pass = $request->input('old_password');
+
+        
+        $user = Auth::user(); 
+
+        if(!Hash::check($old_pass, $user->password)){
+
+            return redirect()->route('account.changePass')->with('error', 'Password does not match!');
+        }
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user(); 
+
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        return redirect()->route('account.changePass')->with('success', 'Password update successfully!');
+
+    }
+
 
     public function logout(Request $request){
 
@@ -217,4 +256,6 @@ class AccountController extends Controller
         ]);
 
     }
+
+
 }

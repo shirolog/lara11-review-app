@@ -27,6 +27,7 @@ Route::group(['prefix' => 'account'], function(){
         ->name('account.login');
         Route::post('login', [AccountController::class, 'authenticate'])
         ->name('account.authenticate');
+
     });
 
     Route::group(['middleware' => 'auth'], function(){
@@ -35,6 +36,10 @@ Route::group(['prefix' => 'account'], function(){
         ->name('account.profile');
         Route::get('logout', [AccountController::class, 'logout'])
         ->name('account.logout');
+        Route::get('change-password', [AccountController::class, 'changePass'])
+        ->name('account.changePass');
+        Route::put('change-password', [AccountController::class, 'updatePass'])
+        ->name('account.updatePass');
         Route::put('update-profile/{user}', [AccountController::class, 'updateProfile'])
         ->name('account.updateProfile');
         Route::get('my-reviews', [AccountController::class, 'myReviews'])
